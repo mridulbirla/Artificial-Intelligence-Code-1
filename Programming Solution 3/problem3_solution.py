@@ -208,7 +208,7 @@ def generate_node(in_state, param, rc_no, dir, parent_path):
 
 
 def check_visited(all_state, temp):
-    for n in all_states:
+    for n in all_state:
         uncommon_nodes = set(n.state_pic.items()) ^ set(temp.state_pic.items())
         #  print len(common_nodes)
         if len(uncommon_nodes) == 0:
@@ -219,99 +219,101 @@ def check_visited(all_state, temp):
 
 
 # Main code execution starts from here
+def main():
+        all_states = []
+        initial_state = []
+        # create priority queue
+        q = Queue.PriorityQueue()
+        try:
+            q.put(read_input(all_states, sys.argv[1]))
+        except IndexError:
+            print "Please enter file name"
+            sys.exit(0)
 
-all_states = []
-initial_state = []
-# create priority queue
-q = Queue.PriorityQueue()
-try:
-    q.put(read_input(all_states, sys.argv[1]))
-except IndexError:
-    print "Please enter file name"
-    sys.exit(0)
+        for i in range(1, 90000):
 
-for i in range(1, 90000):
+            current_state = q.get()
+            # Check if it is a goal state
+            result = goal_test(current_state)
 
-    current_state = q.get()
-    # Check if it is a goal state
-    result = goal_test(current_state)
+            if result:
+                #   print "Success"
+                current_state.move.reverse()
+                print ' '.join(current_state.move)
+                break
+            # Check whether a particular state has been visited or not.If it has been visited then don't expand
+            # For logging purpose we have stored all the generated states to an array called all_states
+            if not check_visited(all_states, current_state):
+               # print "Loop No %d" % i
+                all_states.append(current_state)
+                #   print "The Below state has f(n) %d " % current_state.priority
+                #current_state.print_state()
+            else:
+                continue
 
-    if result:
-        #   print "Success"
-        current_state.move.reverse()
-        print ' '.join(current_state.move)
-        break
-    # Check whether a particular state has been visited or not.If it has been visited then don't expand
-    # For logging purpose we have stored all the generated states to an array called all_states
-    if not check_visited(all_states, current_state):
-       # print "Loop No %d" % i
-        all_states.append(current_state)
-        #   print "The Below state has f(n) %d " % current_state.priority
-        #current_state.print_state()
-    else:
-        continue
+            # Below code generates a state and push it to a priority queue
 
-   # Below code generates a state and push it to a priority queue
+            temp = generate_node(current_state, "row", 1, "R", current_state.move)
+            # temp.print_state()
+            q.put(temp)
 
-    temp = generate_node(current_state, "row", 1, "R", current_state.move)
-    # temp.print_state()
-    q.put(temp)
+            temp = generate_node(current_state, "row", 1, "L", current_state.move)
+            # temp.print_state()
+            q.put(temp)
 
-    temp = generate_node(current_state, "row", 1, "L", current_state.move)
-    # temp.print_state()
-    q.put(temp)
+            temp = generate_node(current_state, "row", 2, "R", current_state.move)
+            # temp.print_state()
+            q.put(temp)
 
-    temp = generate_node(current_state, "row", 2, "R", current_state.move)
-    # temp.print_state()
-    q.put(temp)
+            temp = generate_node(current_state, "row", 2, "L", current_state.move)
+            #   temp.print_state()
+            q.put(temp)
 
-    temp = generate_node(current_state, "row", 2, "L", current_state.move)
-    #   temp.print_state()
-    q.put(temp)
+            temp = generate_node(current_state, "row", 3, "L", current_state.move)
+            #  temp.print_state()
+            q.put(temp)
 
-    temp = generate_node(current_state, "row", 3, "L", current_state.move)
-    #  temp.print_state()
-    q.put(temp)
+            temp = generate_node(current_state, "row", 3, "R", current_state.move)
+            # temp.print_state()
+            q.put(temp)
 
-    temp = generate_node(current_state, "row", 3, "R", current_state.move)
-    # temp.print_state()
-    q.put(temp)
+            temp = generate_node(current_state, "row", 4, "L", current_state.move)
+            # temp.print_state()
+            q.put(temp)
 
-    temp = generate_node(current_state, "row", 4, "L", current_state.move)
-    # temp.print_state()
-    q.put(temp)
+            temp = generate_node(current_state, "row", 4, "R", current_state.move)
+            # temp.print_state()
+            q.put(temp)
 
-    temp = generate_node(current_state, "row", 4, "R", current_state.move)
-    # temp.print_state()
-    q.put(temp)
+            temp = generate_node(current_state, "column", 1, "U", current_state.move)
+            # temp.print_state()
+            q.put(temp)
 
-    temp = generate_node(current_state, "column", 1, "U", current_state.move)
-    # temp.print_state()
-    q.put(temp)
+            temp = generate_node(current_state, "column", 1, "D", current_state.move)
+            # temp.print_state()
+            q.put(temp)
 
-    temp = generate_node(current_state, "column", 1, "D", current_state.move)
-    # temp.print_state()
-    q.put(temp)
+            temp = generate_node(current_state, "column", 2, "U", current_state.move)
+            # temp.print_state()
+            q.put(temp)
 
-    temp = generate_node(current_state, "column", 2, "U", current_state.move)
-    # temp.print_state()
-    q.put(temp)
+            temp = generate_node(current_state, "column", 2, "D", current_state.move)
+            # temp.print_state()
+            q.put(temp)
 
-    temp = generate_node(current_state, "column", 2, "D", current_state.move)
-    # temp.print_state()
-    q.put(temp)
+            temp = generate_node(current_state, "column", 3, "U", current_state.move)
+            # temp.print_state()
+            q.put(temp)
 
-    temp = generate_node(current_state, "column", 3, "U", current_state.move)
-    # temp.print_state()
-    q.put(temp)
+            temp = generate_node(current_state, "column", 3, "D", current_state.move)
+            # temp.print_state()
+            q.put(temp)
 
-    temp = generate_node(current_state, "column", 3, "D", current_state.move)
-    # temp.print_state()
-    q.put(temp)
+            temp = generate_node(current_state, "column", 4, "U", current_state.move)
+            # temp.print_state()
+            q.put(temp)
 
-    temp = generate_node(current_state, "column", 4, "U", current_state.move)
-    # temp.print_state()
-    q.put(temp)
+            temp = generate_node(current_state, "column", 4, "D", current_state.move)
+            q.put(temp)
 
-    temp = generate_node(current_state, "column", 4, "D", current_state.move)
-    q.put(temp)
+main()
